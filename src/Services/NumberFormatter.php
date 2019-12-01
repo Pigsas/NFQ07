@@ -5,16 +5,12 @@ namespace App\Services;
 
 class NumberFormatter
 {
-    protected $number;
 
-    public function __construct(float $number)
+    private $number;
+
+    public function formatNumber(float $number): string
     {
         $this->number = $number;
-    }
-
-    public function formatNumber(): string
-    {
-
 
         $number = round($this->number, 2);
 

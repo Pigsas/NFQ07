@@ -8,14 +8,23 @@ use PHPUnit\Framework\TestCase;
 class NumberFormatterTest extends TestCase
 {
     /**
+     * @var NumberFormatter
+     */
+    private $tuc;
+
+    protected function setUp()
+    {
+        $this->tuc = new NumberFormatter();
+    }
+
+    /**
      * @dataProvider provideNegativeNumbers
      * @param string $expectedFormattedNumber,
      * @param float $actualNumber
      */
     public function testThenNumberIsNegative($expectedFormattedNumber, $actualNumber)
     {
-        $formatter = new NumberFormatter($actualNumber);
-        $number = $formatter->formatNumber();
+        $number = $this->tuc->formatNumber($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }
@@ -33,8 +42,7 @@ class NumberFormatterTest extends TestCase
      */
     public function testThenNumberIsMoreThan0AndLess1K($expectedFormattedNumber, $actualNumber)
     {
-        $formatter = new NumberFormatter($actualNumber);
-        $number = $formatter->formatNumber();
+        $number = $this->tuc->formatNumber($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }
@@ -55,8 +63,7 @@ class NumberFormatterTest extends TestCase
      */
     public function testThenNumberIsMoreThan1KAndLessThan99950($expectedFormattedNumber, $actualNumber)
     {
-        $formatter = new NumberFormatter($actualNumber);
-        $number = $formatter->formatNumber();
+        $number = $this->tuc->formatNumber($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }
@@ -75,8 +82,7 @@ class NumberFormatterTest extends TestCase
      */
     public function testThenNumberIsMoreThan99950AndLessThan999500($expectedFormattedNumber, $actualNumber)
     {
-        $formatter = new NumberFormatter($actualNumber);
-        $number = $formatter->formatNumber();
+        $number = $this->tuc->formatNumber($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }
@@ -95,8 +101,7 @@ class NumberFormatterTest extends TestCase
      */
     public function testThenNumberIsMoreThan999500($expectedFormattedNumber, $actualNumber)
     {
-        $formatter = new NumberFormatter($actualNumber);
-        $number = $formatter->formatNumber();
+        $number = $this->tuc->formatNumber($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }

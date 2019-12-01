@@ -9,62 +9,63 @@ use PHPUnit\Framework\TestCase;
 class MoneyFormatterTest extends TestCase
 {
     private $mock;
+    private $tuc;
 
     protected function setUp()
     {
         $this->mock = $this->getNumberFormatterMock();
+        $this->tuc = new MoneyFormatter($this->mock);
     }
 
     /**
      * @dataProvider provideNumbersForEuroFormat
      * @param string $expectedFormattedNumber,
-     * @param float $actualNumber
+     * @param float $actualNumber,
+     * @param string $willReturn
      */
-    public function testIfReturnEuroFormat($expectedFormattedNumber, $actualNumber)
+    public function testIfReturnEuroFormat($expectedFormattedNumber, $actualNumber, $willReturn)
     {
         $this->mock->method('formatNumber')
             ->with($actualNumber)
-            ->willReturn($expectedFormattedNumber);
+            ->willReturn($willReturn);
 
-        $formatter = new MoneyFormatter($actualNumber);
-        $number = $formatter->formatEur();
+        $number = $this->tuc->formatEur($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }
     public function provideNumbersForEuroFormat(): array
     {
         return [
-            ['2.84M €', 2835779],
-            ['211.99 €', 211.99]
+            ['2.84M €', 2835779, '2.84M'],
+            ['211.99 €', 211.99, '211.99']
         ];
     }
     /**
      * @dataProvider provideNumbersForUsdFormat
      * @param string $expectedFormattedNumber,
      * @param float $actualNumber
+     * @param string $willReturn
      */
-    public function testIfReturnUsdFormat($expectedFormattedNumber, $actualNumber)
+    public function testIfReturnUsdFormat($expectedFormattedNumber, $actualNumber, $willReturn)
     {
         $this->mock->method('formatNumber')
             ->with($actualNumber)
-            ->willReturn($expectedFormattedNumber);
+            ->willReturn($willReturn);
 
-        $formatter = new MoneyFormatter($actualNumber);
-        $number = $formatter->formatUsd();
+        $number = $this->tuc->formatUsd($actualNumber);
 
         $this->assertSame($expectedFormattedNumber, $number);
     }
     public function provideNumbersForUsdFormat(): array
     {
         return [
-            ['$2.84M', 2835779],
-            ['$211.99', 211.99],
+            ['$2.84M', 2835779, '2.84M'],
+            ['$211.99', 211.99, '211.99'],
         ];
     }
     private function getNumberFormatterMock()
     {
         $mock = $this->getMockBuilder(NumberFormatter::class)
-            ->disableOriginalConstructor()
             ->getMock();
 
         return $mock;

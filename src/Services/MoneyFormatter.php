@@ -3,16 +3,25 @@
 
 namespace App\Services;
 
-class MoneyFormatter extends NumberFormatter
+class MoneyFormatter
 {
+    /**
+     * @var NumberFormatter
+     */
+    private $formatter;
 
-    public function formatEur(): string
+    public function __construct(NumberFormatter $formatter)
     {
-        return $this->formatNumber().' €';
+        $this->formatter = $formatter;
     }
 
-    public function formatUsd(): string
+    public function formatEur($number): string
     {
-        return '$'.$this->formatNumber();
+        return $this->formatter->formatNumber($number).' €';
+    }
+
+    public function formatUsd($number): string
+    {
+        return '$'.$this->formatter->formatNumber($number);
     }
 }
